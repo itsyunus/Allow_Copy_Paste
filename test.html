@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paste Enabler Test Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(90deg, #00d9ff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .test-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .test-card h3 {
+            color: #00d9ff;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-card p {
+            color: #aaa;
+            margin: 0 0 16px 0;
+            font-size: 14px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #a855f7;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .blocked {
+            background: #ff4757;
+        }
+
+        .test-num {
+            background: linear-gradient(135deg, #a855f7, #00d9ff);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .instructions {
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .instructions h2 {
+            color: #a855f7;
+            margin: 0 0 10px 0;
+        }
+
+        .instructions ol {
+            margin: 0;
+            padding-left: 20px;
+            color: #ccc;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+        }
+
+        .no-select {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        [contenteditable] {
+            min-height: 60px;
+            padding: 14px 18px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        [contenteditable]:focus {
+            outline: none;
+            border-color: #a855f7;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔓 Paste Enabler Test</h1>
+        <p class="subtitle">Test all paste-blocking bypass methods</p>
+
+        <div class="instructions">
+            <h2>📋 How to Test</h2>
+            <ol>
+                <li>Copy some text (e.g., "Hello World")</li>
+                <li>Try pasting (Ctrl+V) in each field below</li>
+                <li>All fields should accept paste if extension works!</li>
+                <li>Also try: Right-click, Select text, Copy text</li>
+            </ol>
+        </div>
+
+        <!-- Test 1: onpaste attribute -->
+        <div class="test-card">
+            <h3><span class="test-num">1</span> Inline onpaste Block <span class="status blocked">BLOCKED</span></h3>
+            <p>Uses: onpaste="return false"</p>
+            <input type="text" placeholder="Try pasting here..." onpaste="return false">
+        </div>
+
+        <!-- Test 2: oncopy attribute -->
+        <div class="test-card">
+            <h3><span class="test-num">2</span> Inline oncopy Block <span class="status blocked">BLOCKED</span></h3>
+            <p>Uses: oncopy="return false" — Try selecting and copying this text</p>
+            <input type="text" value="Try to copy this text" oncopy="return false" oncut="return false">
+        </div>
+
+        <!-- Test 3: oncontextmenu (right-click) -->
+        <div class="test-card">
+            <h3><span class="test-num">3</span> Right-Click Disabled <span class="status blocked">BLOCKED</span></h3>
+            <p>Uses: oncontextmenu="return false" — Try right-clicking</p>
+            <input type="text" placeholder="Right-click here..." oncontextmenu="return false">
+        </div>
+
+        <!-- Test 4: JavaScript addEventListener -->
+        <div class="test-card">
+            <h3><span class="test-num">4</span> JavaScript Event Listener <span class="status blocked">BLOCKED</span>
+            </h3>
+            <p>Uses: addEventListener('paste', preventDefault)</p>
+            <input type="text" id="js-blocked" placeholder="Try pasting here...">
+        </div>
+
+        <!-- Test 5: Textarea with all blocks -->
+        <div class="test-card">
+            <h3><span class="test-num">5</span> Textarea Multi-Block <span class="status blocked">BLOCKED</span></h3>
+            <p>Uses: onpaste + oncopy + oncut + onselectstart</p>
+            <textarea onpaste="return false" oncopy="return false" oncut="return false" onselectstart="return false"
+                placeholder="Try everything here..."></textarea>
+        </div>
+
+        <!-- Test 6: CSS user-select none -->
+        <div class="test-card">
+            <h3><span class="test-num">6</span> CSS Selection Disabled <span class="status blocked">BLOCKED</span></h3>
+            <p>Uses: user-select: none — Try selecting the text below:</p>
+            <div class="no-select" style="padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                This text has CSS user-select: none. You should still be able to select it.
+            </div>
+        </div>
+
+        <!-- Test 7: Contenteditable -->
+        <div class="test-card">
+            <h3><span class="test-num">7</span> Contenteditable Block <span class="status blocked">BLOCKED</span></h3>
+            <p>Uses: contenteditable with paste blocked via JS</p>
+            <div contenteditable="true" id="contenteditable-blocked">Click here and try pasting...</div>
+        </div>
+
+        <!-- Test 8: Password field -->
+        <div class="test-card">
+            <h3><span class="test-num">8</span> Password Field Block <span class="status blocked">BLOCKED</span></h3>
+            <p>Some sites block paste in password fields</p>
+            <input type="password" placeholder="Paste password here..." onpaste="return false">
+        </div>
+    </div>
+
+    <script>
+        // Test 4: Block via addEventListener
+        document.getElementById('js-blocked').addEventListener('paste', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
+
+        // Test 7: Block contenteditable paste
+        document.getElementById('contenteditable-blocked').addEventListener('paste', function (e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Additional global blocks
+        document.addEventListener('paste', function (e) {
+            // This would block paste globally
+        });
+
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('selectstart', function (e) {
+            // This would block selection
+        });
+    </script>
+</body>
+
+</html>
